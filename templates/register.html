@@ -1,0 +1,19 @@
+{% include "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-4"></div>
+    <div class="col-4 mt-4 card">
+        <h2 class="text-center my-5">Register</h2>
+        <form action="" method="post" novalidate>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary btn-block mt-4">Register</button>
+        </form>
+        <div class="text-center mt-4 mb-4">
+            <p>Already a member?<a class="text-primary" href="{% url 'login' %}">Login</a></p>
+        </div>
+    </div>
+    <div class="col-4"></div>
+</div>
+{% endblock content %}

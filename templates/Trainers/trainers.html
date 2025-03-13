@@ -1,0 +1,16 @@
+<h1>Trainers Dashboard</h1>
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
+    </ul>
+    {% endif %}
+
+
+<h2>Welcome, {{ user.first_name }}</h2>
+<a href="{% url 'viewProfile' profile.id_number %}">View Profile</a>
+<a href="{% url 'editProfile' profile.id_number %}">Edit Profile</a>
+<a href="{% url 'viewMembers' %}">View Members</a>
+<a href="{% url 'logout' %}">Logout</a>
