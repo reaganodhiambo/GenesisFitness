@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Edit Profile{% endblock %}
+{% block content %}
 <h1>Edit Profile</h1>
 <form method="post">
   {% if messages %}
@@ -17,3 +20,4 @@
       <a href="{% url 'members' %}" class="btn btn-secondary">Back to dashboard</a>
     {% endif %}
 </form>
+{% endblock %}

@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Trainer Members{% endblock %}
+{% block content %}
 <h2>Hello, {{trainer.first_name}}!</h2>
 <h3>My Clients</h3>
 <style>
@@ -51,3 +54,4 @@
         {% endfor %}
     </tbody>
 </table>
+{% endblock %}
