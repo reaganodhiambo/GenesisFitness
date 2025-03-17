@@ -3,8 +3,7 @@
 
 {% block content %}
 <h1>Genesis Fitness</h1>
-<h2>Members Home page</h2>
-<h2>Welcome, {{ user.last_name }}</h2>
+<h3>Welcome, {{ user.last_name }}</h3>
 <a href="{% url 'viewProfile' profile.id_number %}">View Profile</a>
 <a href="{% url 'editProfile' profile.id_number %}">Edit Profile</a>
 <a href="{% url 'bookClasses' %}">Book Class</a>

@@ -9,5 +9,7 @@
 <p>Start Date: {{ class.start_date }}</p>
 <p>Start Time: {{ class.starting_time }}</p>
 <p>End Time: {{ class.ending_time }}</p>
-
+<a href="{% url 'home' %}">Book Class</a>
 {% endfor %}
+
+<a href="javascript:history.back()" class="btn btn-secondary">Back</a>
