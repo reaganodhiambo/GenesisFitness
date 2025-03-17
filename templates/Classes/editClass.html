@@ -1,0 +1,11 @@
+Edit Class
+
+<h1>Edit Class</h1>
+
+<form method="POST">
+    {{ form.as_p }}
+    {% csrf_token %}
+    <button type="submit">Edit Class</button>
+</form>
+
+<a href="javascript:history.back()" class="btn btn-secondary">Cancel</a>

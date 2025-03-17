@@ -1,0 +1,11 @@
+
+
+<h1>Add A Class</h1>
+
+<form method="POST">
+    {{ form.as_p }}
+    {% csrf_token %}
+    <button type="submit">Add Class</button>
+</form>
+
+<a href="{% url 'trainers' %}">Back To Dashboard</a>

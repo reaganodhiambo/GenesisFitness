@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from Accounts.models import *
+from Base.models import Class
 from django.contrib.auth.models import User
 from .forms import EditProfileForm
 from django.contrib import messages
@@ -41,10 +42,11 @@ def editProfile(request, id_number):
     return render(request, "templates/editProfile.html", context)
 
 
-def viewClasses(request):
-    classes = Classes.objects.all()
-    context = {"classes": classes}
-    return render(request, "/classes.html", context)
+def viewClasses(request, id_number):
+    profile = get_object_or_404(CustomUser, id_number=id_number)
+    classes = Class.objects.filter(trainer_name=profile)
+    context = {"profile":profile,"classes": classes}
+    return render(request, "templates/Classes/viewClasses.html", context)
 
 
 def viewMembers(request):

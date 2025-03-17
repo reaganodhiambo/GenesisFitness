@@ -1,0 +1,14 @@
+View My Classes
+{% for class in classes %}
+    <p>{{ class.class_name }}</p>
+    <p>{{ class.trainer_name }}</p>
+    <p>{{ class.start_date }}</p>
+    <p>{{ class.starting_time }}</p>
+    <p>{{ class.ending_time }}</p>
+    <a href="{% url 'edit_classes' id=class.id %}">Edit</a>
+    <a href="{% url 'deleteClasses' id=class.id %}">Delete</a>
+    <hr>
+{% endfor %}
+<br>
+<a href="{% url 'add_classes' %}">Add A Class</a>
+<a href="javascript:history.back()">back To Dashboard</a>

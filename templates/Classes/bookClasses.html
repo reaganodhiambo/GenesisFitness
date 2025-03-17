@@ -1,0 +1,13 @@
+<h1>Book Class</h1>
+
+{% for class in classes %}
+<h2>{{ class.class_name }}</h2>
+<p>{{ class.description}}</p>
+<p>Instructor: {{ class.trainer_name }}</p>
+<p>Duration: {{ class.get_duration }}</p>
+<p>Location: {{ class.location }}</p>
+<p>Start Date: {{ class.start_date }}</p>
+<p>Start Time: {{ class.starting_time }}</p>
+<p>End Time: {{ class.ending_time }}</p>
+
+{% endfor %}

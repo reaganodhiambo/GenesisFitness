@@ -15,7 +15,7 @@
                     <a class="nav-link" href="{% url 'trainers' %}">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'viewClasses' %}">My Classes</a>
+                    <a class="nav-link" href="{% url 'viewClasses' profile.id_number %}">My Classes</a>
                 </li>
                 {% elif user.user_type == "member" %}
                 <li class="nav-item">
@@ -25,9 +25,7 @@
                     <a class="nav-link" href="#">Book Classes</a>
                 </li>
                 {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'viewProfile' profile.id_number %}">Profile</a>
-                </li>
+                
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                 </li>
