@@ -1,6 +1,62 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Home - Genesis Fitness
+{% endblock %}
 
 {% block content %}
-<h1>Genesis Fitness</h1>
-About Genesis Fitness
+<!-- Hero Section -->
+<div class="container mt-5" style="height: 70vh;">
+    <div class="row align-items-center h-100">
+        <div class="col-md-6">
+            <h1>Small Steps Equal Big Changes</h1>
+            <p>Join us today and start your fitness journey!</p>
+            <a href="{% url 'register' %}" class="btn btn-primary">Join Now</a>
+        </div>
+        <div class="col-md-6">
+            <img src="{% static 'images/hero1.jpg' %}" class="img-fluid" alt="Hero Image">
+        </div>
+    </div>
+</div>
+
+<!-- Fitness Section -->
+<div class="container mt-5" style="height: 80vh;">
+    <div class="row align-items-center h-100">
+        <div class="col-md-6 order-md-2">
+            <h2>Take A Step Toward Fitness</h2>
+            <p>Getting into shape doesn’t have to be intimidating. Start putting your best fitness foot forward with an
+                online training program that makes you the all star. Get guided workouts for your level of fitness, that
+                you can do anywhere, and at your own pace.</p>
+            <a href="{% url 'register' %}" class="btn btn-primary">Join Now</a>
+        </div>
+        <div class="col-md-6 order-md-1">
+            <img src="{% static 'images/fitness.jpg' %}" class="img-fluid" alt="Fitness Image">
+        </div>
+    </div>
+</div>
+
+
+<!-- Programs Section -->
+<div class="container mt-5 mb-5 programs" style="height: 70vh;">
+    <div class="row align-items-center h-100 text-center">
+        <div class="col-12">
+            <h2>Programs for Every Goal</h2>
+            <p>Get a workout program that works for your body. Use one of our preset programs or customize your own set
+                of workouts to get the results you want. We have exercises for every body type and every body goal.</p>
+        </div>
+        <div class="col-md-3">
+            <img src="{% static 'images/program1.jpg' %}" class="img-fluid" alt="Program 1">
+        </div>
+        <div class="col-md-3">
+            <img src="{% static 'images/program2.jpg' %}" class="img-fluid" alt="Program 2">
+        </div>
+        <div class="col-md-3">
+            <img src="{% static 'images/program3.jpg' %}" class="img-fluid" alt="Program 3">
+        </div>
+        <div class="col-md-3">
+            <img src="{% static 'images/program4.jpg' %}" class="img-fluid" alt="Program 4">
+        </div>
+    </div>
+</div>
 {% endblock %}
