@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from .forms import UserRegistrationForm
+from .forms import *
 from django.http import HttpResponse
 from .models import *
 
@@ -45,6 +45,7 @@ def loginUser(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+                
             user_type = request.user.user_type
             print(user_type)
             if user_type == "trainer":
@@ -95,9 +96,11 @@ def editProfile(request, id_number):
                 extra_tags="success",
             )
             if request.user.user_type == "trainer":
+                return redirect("trainers")
+            elif request.user.user_type == "member":
                 return redirect("members")
             else:
-                return redirect("trainers")
+                return redirect("home")
     else:
         form = EditProfileForm(instance=profile)
     context = {"profile": profile, "form": form}

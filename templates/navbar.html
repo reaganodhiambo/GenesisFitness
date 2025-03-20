@@ -21,10 +21,10 @@
                     <a class="nav-link" href="{% url 'members' %}">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'bookClasses' profile.id_number %}">Book Classes</a>
+                    <a class="nav-link" href="{% url 'bookClasses' user.id_number %}">Book Classes</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'viewProfile' profile.id_number %}">My Profile</a>
+                    <a class="nav-link" href="{% url 'viewProfile' user.id_number %}">My Profile</a>
                 </li>
                 {% endif %}
                 <li class="nav-item">

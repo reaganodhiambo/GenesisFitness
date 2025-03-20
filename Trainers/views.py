@@ -29,23 +29,23 @@ def viewProfile(request, id_number):
     return render(request, "templates/viewProfile.html", context)
 
 
-@login_required
-def editProfile(request, id_number):
-    profile = get_object_or_404(CustomUser, id_number=id_number)
-    if request.method == "POST":
-        form = EditProfileForm(request.POST, instance=profile)
-        if form.is_valid():
-            form.save()
-            messages.success(
-                request,
-                "Profile Updated successfully",
-                extra_tags="success",
-            )
-            return redirect("trainers")
-    else:
-        form = EditProfileForm(instance=profile)
-    context = {"profile": profile, "form": form}
-    return render(request, "templates/editProfile.html", context)
+# @login_required
+# def editProfile(request, id_number):
+#     profile = get_object_or_404(CustomUser, id_number=id_number)
+#     if request.method == "POST":
+#         form = EditProfileForm(request.POST, instance=profile)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(
+#                 request,
+#                 "Profile Updated successfully",
+#                 extra_tags="success",
+#             )
+#             return redirect("trainers")
+#     else:
+#         form = EditProfileForm(instance=profile)
+#     context = {"profile": profile, "form": form}
+#     return render(request, "templates/editProfile.html", context)
 
 
 @login_required
