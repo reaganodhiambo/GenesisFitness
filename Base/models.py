@@ -46,10 +46,18 @@ class Booking(models.Model):
         on_delete=models.CASCADE,
         related_name="bookings",
     )
-    
 
     def __str__(self):
-        return self.name
+        return f"{self.client_name} - {self.class_name}"
+
+    @classmethod
+    def register_member(cls, member, class_instance):
+        booking = cls.objects.create(
+            client_name=member,
+            trainer_name=class_instance.trainer_name,
+            class_name=class_instance,
+        )
+        return booking
 
 
 class Membership(models.Model):

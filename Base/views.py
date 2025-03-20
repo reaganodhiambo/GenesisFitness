@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
+@login_required
 def addClasses(request):
     user = request.user
     if user.user_type == "trainer":
@@ -63,33 +64,28 @@ def deleteClasses(request, id):
         return render(request, "templates/404.html")
 
 
+@login_required
+def register_for_class(request, class_id):
+    user = request.user
+    if user.user_type == "member":
+        class_instance = get_object_or_404(Class, id=class_id)
+        Booking.register_member(user, class_instance)
+        return redirect("bookClasses")
+    else:
+        return render(request, "templates/404.html")
+
+
+@login_required
 def bookClasses(request):
     user = request.user
     if user.user_type == "member":
         classes = Class.objects.all
+        class_instance = get_object_or_404(Class, id=class_id)
+        Booking.register_member(user, class_instance)
         context = {"classes": classes, "user": user}
         return render(request, "templates/Classes/bookClasses.html", context=context)
     else:
         return render(request, "templates/404.html")
 
 
-# def bookClasses(request):
-#     user = request.user
-#     if user.user_type == "member":
-#         if request.method == "POST":
-#             form = BookClassForm(request.POST)
-#             if form.is_valid():
-#                 class_instance = form.save(commit=False)
-#                 class_instance.members.add(user)
-#                 class_instance.save()
-#                 messages.success(
-#                     request, "Class booked successfully", extra_tags="success"
-#                 )
-#                 return redirect("bookClasses")
-#         else:
-#             form = BookClassForm()
-#         classes = Class.objects.all()
-#         context = {"classes": classes, "user": user, "form": form}
-#         return render(request, "templates/Classes/bookClasses.html", context=context)
-#     else:
-#         return render(request, "templates/404.html")
+

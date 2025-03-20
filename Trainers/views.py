@@ -54,3 +54,5 @@ def viewMembers(request):
     members = CustomUser.objects.filter(user_type="member")
     context = {"members": members, "trainer": trainer}
     return render(request, "templates/trainer_members.html", context)
+
+    

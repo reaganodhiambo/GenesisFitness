@@ -8,13 +8,27 @@
 </head>
 
 <body>
-    <h1>Delete Class</h1>
-    <p>Are you sure you want to delete the class "{{ class_instance.class_name }}"?</p>
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Delete</button>
-        <a href="javascript:history.back()" class="btn btn-secondary">Cancel</a>
-    </form>
+    {% extends "base.html" %}
+    {% block title %}Delete Class{% endblock %}
+    {% block content %}
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Delete Class</h1>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <p>Are you sure you want to delete the class "{{ class_instance.class_name }}"?</p>
+                        <form method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                            <a href="javascript:history.back()" class="btn btn-secondary">Cancel</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
 </body>
 
 </html>

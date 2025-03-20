@@ -1,14 +1,28 @@
-View My Classes
-{% for class in classes %}
-    <p>{{ class.class_name }}</p>
-    <p>{{ class.trainer_name }}</p>
-    <p>{{ class.start_date }}</p>
-    <p>{{ class.starting_time }}</p>
-    <p>{{ class.ending_time }}</p>
-    <a href="{% url 'edit_classes' id=class.id %}">Edit</a>
-    <a href="{% url 'deleteClasses' id=class.id %}">Delete</a>
-    <hr>
-{% endfor %}
-<br>
-<a href="{% url 'add_classes' %}">Add A Class</a>
-<a href="javascript:history.back()">back To Dashboard</a>
+{% extends "base.html" %}
+{% block title %}View My Classes{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">View My Classes</h1>
+    <div class="row">
+        {% for class in classes %}
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ class.class_name }}</h5>
+                    <p class="card-text"><strong>Trainer:</strong> {{ class.trainer_name }}</p>
+                    <p class="card-text"><strong>Start Date:</strong> {{ class.start_date }}</p>
+                    <p class="card-text"><strong>Starting Time:</strong> {{ class.starting_time }}</p>
+                    <p class="card-text"><strong>Ending Time:</strong> {{ class.ending_time }}</p>
+                    <a href="{% url 'edit_classes' id=class.id %}" class="btn btn-primary">Edit</a>
+                    <a href="{% url 'deleteClasses' id=class.id %}" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="text-center mt-4">
+        <a href="{% url 'add_classes' %}" class="btn btn-success">Add A Class</a>
+        <a href="{% url 'trainers' %}" class="btn btn-secondary">Back To Dashboard</a>
+    </div>
+</div>
+{% endblock %}

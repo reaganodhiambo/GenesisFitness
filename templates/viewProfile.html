@@ -2,15 +2,27 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
-<h1>Profile of {{ profile.first_name }} {{ profile.last_name }}</h1>
-<p>ID Number: {{ profile.id_number }}</p>
-<p>Email: {{ profile.email }}</p>
-<p>Phone: {{ profile.phone_number }}</p>
-
-<a href="{% url 'editProfile' id_number=profile.id_number %}">Edit Profile</a>
-{% if profile.user_type == 'member' %}
-<a href="{% url 'members' %}">Back to Dashboard</a>
-{% else %}
-<a href="{% url 'trainers' %}">Back to Dashboard</a>
-{% endif %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Profile of {{ profile.first_name }} {{ profile.last_name }}</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <p><strong>ID Number:</strong> {{ profile.id_number }}</p>
+                    <p><strong>Email:</strong> {{ profile.email }}</p>
+                    <p><strong>Phone:</strong> {{ profile.phone_number }}</p>
+                    <div class="text-center mt-4">
+                        <a href="{% url 'editProfile' id_number=profile.id_number %}" class="btn btn-primary">Edit
+                            Profile</a>
+                        {% if profile.user_type == 'member' %}
+                        <a href="{% url 'members' %}" class="btn btn-secondary">Back to Dashboard</a>
+                        {% else %}
+                        <a href="{% url 'trainers' %}" class="btn btn-secondary">Back to Dashboard</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
