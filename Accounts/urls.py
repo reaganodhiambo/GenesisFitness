@@ -7,6 +7,5 @@ urlpatterns = [
     path("logout/", logoutUser, name="logout"),
     path("members/", memberDashboard, name="members"),
     path("editProfile/<int:id_number>/", editProfile, name="editProfile"),
-    # path("trainers/", trainers, name="trainers"),
-    # path("profile/", profile, name="profile"),
+
 ]
