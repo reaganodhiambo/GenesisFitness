@@ -11,17 +11,28 @@ from .models import *
 
 # Create your views here.
 def home(request):
-    return render(request, "templates/home.html")
+    if request.user.is_authenticated:
+        user_type = request.user.user_type
+        profile = get_object_or_404(CustomUser, id_number=request.user.id_number)
+        
+    else:
+        user_type = None
+        profile = None
+    context = {"user_type": user_type, "profile": profile}
+    return render(request, "templates/home.html",context=context)
 
 
 def registerUser(request):
-    if request.method == "POST":
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("login")
+    if request.user.is_authenticated:
+        return redirect("home")
     else:
-        form = UserRegistrationForm()
+        if request.method == "POST":
+            form = UserRegistrationForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect("login")
+        else:
+            form = UserRegistrationForm()
 
     return render(request, "templates/register.html", {"form": form})
 

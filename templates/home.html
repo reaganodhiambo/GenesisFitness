@@ -7,7 +7,8 @@ Home - Genesis Fitness
 
 {% block content %}
 <!-- Hero Section -->
-<div class="container mt-5" style="height: 70vh;">
+ 
+<div class="container mt-5 " style="height: 70vh;">
     <div class="row align-items-center h-100">
         <div class="col-md-6">
             <h1>Small Steps Equal Big Changes</h1>
@@ -19,8 +20,8 @@ Home - Genesis Fitness
         </div>
     </div>
 </div>
-
 <!-- Fitness Section -->
+<div class="container-fluid bg-light">
 <div class="container mt-5" style="height: 80vh;">
     <div class="row align-items-center h-100">
         <div class="col-md-6 order-md-2">
@@ -34,6 +35,7 @@ Home - Genesis Fitness
             <img src="{% static 'images/fitness.jpg' %}" class="img-fluid" alt="Fitness Image">
         </div>
     </div>
+</div>
 </div>
 
 
@@ -57,6 +59,26 @@ Home - Genesis Fitness
         <div class="col-md-3">
             <img src="{% static 'images/program4.jpg' %}" class="img-fluid" alt="Program 4">
         </div>
+        <div class="col-12">
+            <a href="{% url 'register' %}" class="btn btn-primary">More Programs</a>
+        </div>
+    </div>
+</div>
+
+<!-- Break Out of Old Habits Section -->
+<div class="container mt-5 mb-5" style="height: 90vh;">
+    <div class="row align-items-center h-100">
+        <div class="col-md-6">
+            <h2>Break Out of Old Habits</h2>
+            <p>It’s never too late to start focusing on your health. It’s just a matter of getting started. With our
+                no-obligation, contract-free memberships, it’s easy to get your healthy habits going without the
+                pressure. Feel the best you ever have. It all starts here.</p>
+            <a href="{% url 'register' %}" class="btn btn-primary">Join Now</a>
+        </div>
+        <div class="col-md-6">
+            <img src="{% static 'images/breakout.jpg' %}" class="img-fluid" alt="Break Out of Old Habits Image">
+        </div>
     </div>
 </div>
 {% endblock %}
+

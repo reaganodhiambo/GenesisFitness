@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}About Us{% endblock %}
+{% block content %}
+<div class="container-fluid mt-5" style="height: 80vh;">
+    <div class="row align-items-center h-100">
+        <div class="col-md-6 text-center">
+            <h1>About Genesis Fitness</h1>
+            <p class="lead">Welcome to Genesis Fitness, where we help you achieve your fitness goals with our expert
+                trainers and state-of-the-art facilities.</p>
+        </div>
+        <div class="col-md-6">
+            <img src="{% static 'images/breakout.jpg' %}" class="img-fluid" alt="About Genesis Fitness">
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt-5" style="height: 80vh;">
+    <div class="row align-items-center h-100">
+        <div class="col-md-6 order-md-2">
+            <h2>Our Mission</h2>
+            <p>Our mission is to empower individuals to lead healthier lives by providing top-notch fitness programs,
+                personalized training, and a supportive community.</p>
+        </div>
+        <div class="col-md-6 order-md-1">
+            <img src="{% static 'images/fitness.jpg' %}" class="img-fluid" alt="Our Mission">
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt-5" style="height: 80vh;">
+    <div class="row align-items-center h-100">
+        <div class="col-md-6">
+            <h2>Our Vision</h2>
+            <p>We envision a world where everyone has the opportunity to achieve their fitness goals and live a
+                healthier, happier life.</p>
+        </div>
+        <div class="col-md-6">
+            <img src="{% static 'images/breakout.jpg' %}" class="img-fluid" alt="Our Vision">
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt-5" style="height: 80vh;">
+    <div class="row align-items-center h-100">
+        <div class="col-md-6 order-md-2">
+            <h2>Meet Our Team</h2>
+            <p>Our team of expert trainers and staff are dedicated to helping you achieve your fitness goals. We are
+                passionate about fitness and committed to providing the best possible experience for our members.</p>
+        </div>
+        <div class="col-md-6 order-md-1">
+            <img src="{% static 'images/program2.jpg' %}" class="img-fluid" alt="Meet Our Team">
+        </div>
+    </div>
+</div>
+{% endblock %}

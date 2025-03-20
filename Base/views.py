@@ -25,6 +25,14 @@ def addClasses(request):
         return render(request, "templates/Classes/addClasses.html", context=context)
 
 
+def about(request):
+    return render(request, "templates/about.html")
+
+
+def contact(request):
+    return render(request, "templates/contact.html")
+
+
 def editClasses(request, id):
     user = request.user
     if user.user_type == "trainer":
