@@ -8,5 +8,5 @@ urlpatterns = [
     path("add-classes/", addClasses, name="add_classes"),
     path("edit-classes/<int:id>/", editClasses, name="edit_classes"),
     path("delete-classes/<int:id>/", deleteClasses, name="deleteClasses"),
-    path("book-classes/", bookClasses, name="bookClasses"),
+    path("book-classes/<int:id_number>/", bookClasses, name="bookClasses"),
 ]

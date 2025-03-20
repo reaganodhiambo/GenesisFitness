@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
 from Accounts.models import *
+from .models import *
 from django.contrib import messages
 from .forms import *
 from django.contrib.auth.decorators import login_required
@@ -65,27 +66,20 @@ def deleteClasses(request, id):
 
 
 @login_required
-def register_for_class(request, class_id):
+def bookClasses(request, id_number):
     user = request.user
     if user.user_type == "member":
-        class_instance = get_object_or_404(Class, id=class_id)
-        Booking.register_member(user, class_instance)
-        return redirect("bookClasses")
-    else:
-        return render(request, "templates/404.html")
+        classes = Class.objects.all()
+        profile = get_object_or_404(CustomUser, id_number=id_number)
 
+        if request.method == "POST":
+            class_id = request.POST.get("class_id")
+            class_instance = get_object_or_404(Class, id=class_id)
+            Booking.register_member(user, class_instance)
+            messages.success(request, "Class booked successfully")
+            return redirect("bookClasses", id_number=id_number)
 
-@login_required
-def bookClasses(request):
-    user = request.user
-    if user.user_type == "member":
-        classes = Class.objects.all
-        class_instance = get_object_or_404(Class, id=class_id)
-        Booking.register_member(user, class_instance)
-        context = {"classes": classes, "user": user}
+        context = {"classes": classes, "user": user, "profile": profile}
         return render(request, "templates/Classes/bookClasses.html", context=context)
     else:
         return render(request, "templates/404.html")
-
-
-

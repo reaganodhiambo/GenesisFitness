@@ -21,7 +21,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Profile</h5>
                     <a href="{% url 'viewProfile' profile.id_number %}" class="btn btn-primary">View Profile</a>
-                    <a href="{% url 'editProfile' profile.id_number %}" class="btn btn-secondary mt-2">Edit Profile</a>
+                    <a href="{% url 'editProfile' profile.id_number %}" class="btn btn-secondary">Edit Profile</a>
                 </div>
             </div>
         </div>
@@ -38,7 +38,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Classes</h5>
                     <a href="{% url 'add_classes' %}" class="btn btn-success">Add A Class</a>
-                    <a href="{% url 'viewClasses' profile.id_number %}" class="btn btn-primary mt-2">My Classes</a>
+                    <a href="{% url 'viewClasses' profile.id_number %}" class="btn btn-primary">My Classes</a>
                 </div>
             </div>
         </div>

@@ -1,13 +1,33 @@
-<h1>Book Class</h1>
-
-{% for class in classes %}
-<h2>{{ class.class_name }}</h2>
-<p>{{ class.description}}</p>
-<p>Instructor: {{ class.trainer_name }}</p>
-<p>Duration: {{ class.get_duration }}</p>
-<p>Location: {{ class.location }}</p>
-<p>Start Date: {{ class.start_date }}</p>
-<p>Start Time: {{ class.starting_time }}</p>
-<p>End Time: {{ class.ending_time }}</p>
-
-{% endfor %}
+{% extends "base.html" %}
+{% block title %}Book Class{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Book Class</h1>
+    <div class="row">
+        {% for class in classes %}
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ class.class_name }}</h5>
+                    <p class="card-text">{{ class.description }}</p>
+                    <p class="card-text"><strong>Instructor:</strong> {{ class.trainer_name }}</p>
+                    <p class="card-text"><strong>Duration:</strong> {{ class.get_duration }}</p>
+                    <p class="card-text"><strong>Location:</strong> {{ class.location }}</p>
+                    <p class="card-text"><strong>Start Date:</strong> {{ class.start_date }}</p>
+                    <p class="card-text"><strong>Start Time:</strong> {{ class.starting_time }}</p>
+                    <p class="card-text"><strong>End Time:</strong> {{ class.ending_time }}</p>
+                    <form method="post" action="{% url 'bookClasses' profile.id_number %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="class_id" value="{{ class.id }}">
+                        <button type="submit" class="btn btn-primary">Book Class</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="text-center mt-4 mb-4">
+        <a href="{% url 'members' %}" class="btn btn-info">Back To Dashboard</a>
+    </div>
+</div>
+{% endblock %}
