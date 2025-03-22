@@ -23,3 +23,9 @@ urlpatterns = [
     path('', include('Base.urls')),
     path('trainers/', include('Trainers.urls')),
 ]
+
+
+admin.site.site_header = "Genesis Fitness Admin"
+admin.site.site_title = "Genesis Fitness Admin Portal"
+admin.site.index_title = "Welcome to Genesis Fitness Admin Portal"
+
