@@ -32,6 +32,8 @@ class Class(models.Model):
     def __str__(self):
         return self.class_name
 
+    verbose_name_plural = "Classes"
+
     def get_duration(self):
         start = timedelta(
             hours=self.starting_time.hour, minutes=self.starting_time.minute

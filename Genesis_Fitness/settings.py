@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'Accounts',
     'Base',
     'Trainers',
-    # 'bootstrap5',
+   
 ]
 
 MIDDLEWARE = [

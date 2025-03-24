@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from Accounts.models import CustomUser
 from Base.models import *
-from Accounts.models import *   
+from Accounts.models import *
 from django.contrib.auth.models import User
 from .forms import EditProfileForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
 
 # Create your views here.
 
@@ -63,5 +66,54 @@ def viewMembers(request):
         bookings = Booking.objects.filter(trainer_name=trainer)
         context = {"bookings": bookings, "trainer": trainer}
         return render(request, "templates/trainer_members.html", context)
+    else:
+        return render(request, "templates/404.html")
+
+
+@login_required
+def generate_report(request):
+    user = request.user
+    if user.user_type == "trainer":
+        # Get all bookings for the trainer
+        bookings = Booking.objects.filter(trainer_name=user)
+
+        # Create the HttpResponse object with the appropriate PDF headers.
+        response = HttpResponse(content_type="application/pdf")
+        response["Content-Disposition"] = (
+            'attachment; filename="class_members_report.pdf"'
+        )
+
+        # Create the PDF object, using the response object as its "file."
+        p = canvas.Canvas(response, pagesize=letter)
+        width, height = letter
+
+        # Draw the title
+        p.setFont("Helvetica-Bold", 16)
+        p.drawString(100, height - 50, "Class Members Report")
+
+        # Draw the table headers
+        p.setFont("Helvetica-Bold", 12)
+        p.drawString(50, height - 100, "First Name")
+        p.drawString(150, height - 100, "Last Name")
+        p.drawString(250, height - 100, "Email")
+        p.drawString(350, height - 100, "Phone Number")
+        p.drawString(450, height - 100, "Class Booked")
+
+        # Draw the table rows
+        p.setFont("Helvetica", 12)
+        y = height - 120
+        for booking in bookings:
+            p.drawString(50, y, booking.client_name.first_name)
+            p.drawString(150, y, booking.client_name.last_name)
+            p.drawString(250, y, booking.client_name.email)
+            p.drawString(350, y, str(booking.client_name.phone_number))
+            p.drawString(450, y, booking.class_name.class_name)
+            y -= 20
+
+        # Close the PDF object cleanly.
+        p.showPage()
+        p.save()
+
+        return response
     else:
         return render(request, "templates/404.html")
