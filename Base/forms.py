@@ -72,11 +72,11 @@ class BookClassForm(forms.ModelForm):
 
 
 class MembershipForm(forms.ModelForm):
-    MEMBERSHIP_TYPE = (
-        ("weekly", "Weekly"),
-        ("monthly", "Monthly"),
+    MEMBERSHIP_TYPE_CHOICES = (
+        ("weekly", "Weekly - 2000 KES"),
+        ("monthly", "Monthly - 7500 KES"),
     )
-    membership_type = forms.ChoiceField(choices=MEMBERSHIP_TYPE)
+    membership_type = forms.ChoiceField(choices=MEMBERSHIP_TYPE_CHOICES)
 
     class Meta:
         model = Membership
@@ -87,7 +87,9 @@ class MembershipForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
     def save(self, commit=True):
-        membership_type = self.cleaned_data["membership_type"]
+        membership_type = self.cleaned_data["membership_type"].split(" - ")[
+            0
+        ]  # Extract the type without price
         start_date = date.today()
         membership = Membership.create_membership(
             self.user, membership_type, start_date

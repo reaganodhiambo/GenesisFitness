@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from Accounts.models import CustomUser
 from Base.models import Class, Booking, Membership
-from Base.forms import BookClassForm, MembershipForm
+from Base.forms import *
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+
 
 # Create your views here.
 
