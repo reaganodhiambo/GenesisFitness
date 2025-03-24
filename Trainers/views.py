@@ -3,12 +3,15 @@ from Accounts.models import CustomUser
 from Base.models import *
 from Accounts.models import *
 from django.contrib.auth.models import User
-from .forms import EditProfileForm
+from .forms import EditProfileForm, MemberFilterForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
 
 # Create your views here.
 
@@ -32,25 +35,6 @@ def viewProfile(request, id_number):
     return render(request, "templates/viewProfile.html", context)
 
 
-# @login_required
-# def editProfile(request, id_number):
-#     profile = get_object_or_404(CustomUser, id_number=id_number)
-#     if request.method == "POST":
-#         form = EditProfileForm(request.POST, instance=profile)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(
-#                 request,
-#                 "Profile Updated successfully",
-#                 extra_tags="success",
-#             )
-#             return redirect("trainers")
-#     else:
-#         form = EditProfileForm(instance=profile)
-#     context = {"profile": profile, "form": form}
-#     return render(request, "templates/editProfile.html", context)
-
-
 @login_required
 def viewClasses(request, id_number):
     profile = get_object_or_404(CustomUser, id_number=id_number)
@@ -63,8 +47,22 @@ def viewClasses(request, id_number):
 def viewMembers(request):
     trainer = request.user
     if trainer.user_type == "trainer":
+        form = MemberFilterForm(request.GET or None)
         bookings = Booking.objects.filter(trainer_name=trainer)
-        context = {"bookings": bookings, "trainer": trainer}
+
+        if form.is_valid():
+            class_name = form.cleaned_data.get("class_name")
+            booking_date = form.cleaned_data.get("booking_date")
+            day_of_week = form.cleaned_data.get("day_of_week")
+
+            if class_name:
+                bookings = bookings.filter(class_name=class_name)
+            if booking_date:
+                bookings = bookings.filter(booking_date=booking_date)
+            if day_of_week:
+                bookings = bookings.filter(class_name__day_of_week=day_of_week)
+
+        context = {"bookings": bookings, "trainer": trainer, "form": form}
         return render(request, "templates/trainer_members.html", context)
     else:
         return render(request, "templates/404.html")
@@ -84,35 +82,55 @@ def generate_report(request):
         )
 
         # Create the PDF object, using the response object as its "file."
-        p = canvas.Canvas(response, pagesize=letter)
-        width, height = letter
+        doc = SimpleDocTemplate(response, pagesize=letter)
+        elements = []
 
-        # Draw the title
-        p.setFont("Helvetica-Bold", 16)
-        p.drawString(100, height - 50, "Class Members Report")
+        # Add heading and contact information
+        styles = getSampleStyleSheet()
+        title = Paragraph("Class Members Report", styles["Title"])
+        contact_info = Paragraph(
+            f"Trainer: {user.first_name} {user.last_name}<br/>Email: {user.email}",
+            styles["Normal"],
+        )
+        elements.append(title)
+        elements.append(contact_info)
 
-        # Draw the table headers
-        p.setFont("Helvetica-Bold", 12)
-        p.drawString(50, height - 100, "First Name")
-        p.drawString(150, height - 100, "Last Name")
-        p.drawString(250, height - 100, "Email")
-        p.drawString(350, height - 100, "Phone Number")
-        p.drawString(450, height - 100, "Class Booked")
+        # Add some space
+        elements.append(Paragraph("<br/><br/>", styles["Normal"]))
 
-        # Draw the table rows
-        p.setFont("Helvetica", 12)
-        y = height - 120
+        # Create the table data
+        data = [["First Name", "Last Name", "Email", "Phone Number", "Class Booked"]]
         for booking in bookings:
-            p.drawString(50, y, booking.client_name.first_name)
-            p.drawString(150, y, booking.client_name.last_name)
-            p.drawString(250, y, booking.client_name.email)
-            p.drawString(350, y, str(booking.client_name.phone_number))
-            p.drawString(450, y, booking.class_name.class_name)
-            y -= 20
+            data.append(
+                [
+                    booking.client_name.first_name,
+                    booking.client_name.last_name,
+                    booking.client_name.email,
+                    str(booking.client_name.phone_number),
+                    booking.class_name.class_name,
+                ]
+            )
 
-        # Close the PDF object cleanly.
-        p.showPage()
-        p.save()
+        # Create the table
+        table = Table(data)
+        table.setStyle(
+            TableStyle(
+                [
+                    ("BACKGROUND", (0, 0), (-1, 0), colors.grey),
+                    ("TEXTCOLOR", (0, 0), (-1, 0), colors.whitesmoke),
+                    ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+                    ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+                    ("BOTTOMPADDING", (0, 0), (-1, 0), 12),
+                    ("BACKGROUND", (0, 1), (-1, -1), colors.beige),
+                    ("GRID", (0, 0), (-1, -1), 1, colors.black),
+                ]
+            )
+        )
+
+        elements.append(table)
+
+        # Build the PDF
+        doc.build(elements)
 
         return response
     else:
