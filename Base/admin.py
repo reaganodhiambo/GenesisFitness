@@ -20,8 +20,8 @@ class BookingAdmin(admin.ModelAdmin):
 
 
 class MembershipAdmin(admin.ModelAdmin):
-    list_display = ["member", "membership_type", "start_date", "end_date"]
-    list_filter = ["member", "membership_type", "start_date", "end_date"]
+    list_display = ["membership_type", "start_date", "end_date"]
+    list_filter = ["membership_type", "start_date", "end_date"]
 
 
 admin.site.register(Booking)
