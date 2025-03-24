@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}View Membership{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Membership Details</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    {% if membership %}
+                    <p><strong>Membership Type:</strong> {{ membership.membership_type }}</p>
+                    <p><strong>Start Date:</strong> {{ membership.start_date }}</p>
+                    <p><strong>End Date:</strong> {{ membership.end_date }}</p>
+                    <p><strong>Price:</strong> {{ membership.price }} KES</p>
+                    <p><strong>Status:</strong> {{ membership.status }}</p>
+                    {% else %}
+                    <p>You do not have an active membership.</p>
+                    {% endif %}
+                    <div class="text-center mt-4">
+                        <a href="{% url 'members' %}" class="btn btn-secondary">Back to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

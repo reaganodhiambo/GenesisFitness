@@ -1,10 +1,10 @@
-from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
-from Accounts.models import *
-from .models import *
+from Accounts.models import CustomUser
+from Base.models import Class, Booking, Membership
+from Base.forms import BookClassForm, MembershipForm
 from django.contrib import messages
-from .forms import *
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 
 # Create your views here.
 
@@ -69,17 +69,105 @@ def deleteClasses(request, id):
 def bookClasses(request, id_number):
     user = request.user
     if user.user_type == "member":
+        # Check if the user has an active membership
+        active_membership = Membership.objects.filter(
+            client_name=user,
+            start_date__lte=timezone.now().date(),
+            end_date__gte=timezone.now().date(),
+        ).exists()
+
+        if not active_membership:
+            messages.error(request, "You need an active membership to book classes.")
+            return redirect("membership")
+
         classes = Class.objects.all()
         profile = get_object_or_404(CustomUser, id_number=id_number)
 
         if request.method == "POST":
-            class_id = request.POST.get("class_id")
-            class_instance = get_object_or_404(Class, id=class_id)
-            Booking.register_member(user, class_instance)
-            messages.success(request, "Class booked successfully")
-            return redirect("bookClasses", id_number=id_number)
+            form = BookClassForm(request.POST, user=user)
+            if form.is_valid():
+                class_instance = form.cleaned_data["class_name"]
+                Booking.register_member(user, class_instance)
+                messages.success(request, "Class booked successfully")
+                return redirect("viewBookedClasses")
+            else:
+                messages.error(request, form.errors)
 
-        context = {"classes": classes, "user": user, "profile": profile}
+        else:
+            form = BookClassForm(user=user)
+
+        context = {"classes": classes, "user": user, "profile": profile, "form": form}
         return render(request, "templates/Classes/bookClasses.html", context=context)
+    else:
+        return render(request, "templates/404.html")
+
+
+@login_required
+def membership(request):
+    user = request.user
+    if user.user_type == "member":
+        # Check if the user has an active membership
+        active_membership = Membership.objects.filter(
+            client_name=user,
+            start_date__lte=timezone.now().date(),
+            end_date__gte=timezone.now().date(),
+        ).exists()
+
+        if active_membership:
+            messages.info(request, "You already have an active membership.")
+            return redirect("viewMembership")
+
+        if request.method == "POST":
+            form = MembershipForm(request.POST, user=user)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Membership created successfully")
+                return redirect("bookClasses", id_number=user.id_number)
+            else:
+                messages.error(request, form.errors)
+        else:
+            form = MembershipForm(user=user)
+
+        context = {"form": form}
+        return render(request, "templates/membership.html", context=context)
+    else:
+        return render(request, "templates/404.html")
+
+
+@login_required
+def viewMembership(request):
+    user = request.user
+    if user.user_type == "member":
+        membership = (
+            Membership.objects.filter(client_name=user).order_by("-end_date").first()
+        )
+        context = {"membership": membership}
+        return render(request, "templates/viewMembership.html", context=context)
+    else:
+        return render(request, "templates/404.html")
+
+
+@login_required
+def viewBookedClasses(request):
+    user = request.user
+    if user.user_type == "member":
+        bookings = Booking.objects.filter(client_name=user)
+        context = {"bookings": bookings}
+        return render(request, "templates/viewBookedClasses.html", context=context)
+    else:
+        return render(request, "templates/404.html")
+
+
+@login_required
+def cancelBooking(request, booking_id):
+    user = request.user
+    if user.user_type == "member":
+        booking = get_object_or_404(Booking, id=booking_id, client_name=user)
+        if request.method == "POST":
+            booking.delete()
+            messages.success(request, "Booking canceled successfully")
+            return redirect("viewBookedClasses")
+        context = {"booking": booking}
+        return render(request, "templates/cancelBooking.html", context=context)
     else:
         return render(request, "templates/404.html")

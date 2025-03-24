@@ -12,22 +12,18 @@
                     <p class="card-text">{{ class.description }}</p>
                     <p class="card-text"><strong>Instructor:</strong> {{ class.trainer_name }}</p>
                     <p class="card-text"><strong>Duration:</strong> {{ class.get_duration }}</p>
-                    <p class="card-text"><strong>Location:</strong> {{ class.location }}</p>
-                    <p class="card-text"><strong>Start Date:</strong> {{ class.start_date }}</p>
+                    <p class="card-text"><strong>Day:</strong> {{ class.day_of_week }}</p>
                     <p class="card-text"><strong>Start Time:</strong> {{ class.starting_time }}</p>
                     <p class="card-text"><strong>End Time:</strong> {{ class.ending_time }}</p>
                     <form method="post" action="{% url 'bookClasses' profile.id_number %}">
                         {% csrf_token %}
-                        <input type="hidden" name="class_id" value="{{ class.id }}">
+                        <input type="hidden" name="class_name" value="{{ class.id }}">
                         <button type="submit" class="btn btn-primary">Book Class</button>
                     </form>
                 </div>
             </div>
         </div>
         {% endfor %}
-    </div>
-    <div class="text-center mt-4 mb-4">
-        <a href="{% url 'members' %}" class="btn btn-info">Back To Dashboard</a>
     </div>
 </div>
 {% endblock %}

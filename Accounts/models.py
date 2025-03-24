@@ -37,7 +37,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     user_type = models.CharField(max_length=25, choices=user_type, default="member")
     date_joined = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)   
+    is_staff = models.BooleanField(default=False)
 
     objects = CustomAccountManager()
 
@@ -55,6 +55,3 @@ class Trainer(models.Model):
 
     def __str__(self):
         return self.user.email
-
-
-

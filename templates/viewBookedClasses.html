@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}View Booked Classes{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Booked Classes</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    {% if bookings %}
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Class Name</th>
+                                <th>Instructor</th>
+                                <th>Day</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for booking in bookings %}
+                            <tr>
+                                <td>{{ booking.class_name.class_name }}</td>
+                                <td>{{ booking.trainer_name.first_name }} {{ booking.trainer_name.last_name }}</td>
+                                <td>{{ booking.class_name.day_of_week }}</td>
+                                <td>{{ booking.class_name.starting_time }}</td>
+                                <td>{{ booking.class_name.ending_time }}</td>
+                                <td>
+                                    <form method="post" action="{% url 'cancelBooking' booking.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p>You have not booked any classes.</p>
+                    <a href="{% url 'bookClasses' user.id_number %}" class="btn btn-info">Book A Class</a>
+                    {% endif %}
+                    <div class="text-center mt-4">
+                        <a href="{% url 'members' %}" class="btn btn-secondary">Back to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

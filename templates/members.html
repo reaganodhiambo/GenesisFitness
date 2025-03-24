@@ -20,8 +20,8 @@
             <div class="card text-center">
                 <div class="card-body">
                     <h5 class="card-title">Profile</h5>
-                    <a href="{% url 'viewProfile' profile.id_number %}" class="btn btn-primary">View Profile</a>
-                    <a href="{% url 'editProfile' profile.id_number %}" class="btn btn-secondary ">Edit Profile</a>
+                    <a href="{% url 'viewProfile' user.id_number %}" class="btn btn-primary">View Profile</a>
+                    <a href="{% url 'editProfile' user.id_number %}" class="btn btn-secondary">Edit Profile</a>
                 </div>
             </div>
         </div>
@@ -29,15 +29,17 @@
             <div class="card text-center">
                 <div class="card-body">
                     <h5 class="card-title">Classes</h5>
-                    <a href="{% url 'bookClasses' profile.id_number %}" class="btn btn-primary">Book Class</a>
+                    <a href="{% url 'bookClasses' user.id_number %}" class="btn btn-primary">Book Class</a>
+                    <a href="{% url 'viewBookedClasses' %}" class="btn btn-secondary">View Booked Classes</a>
                 </div>
             </div>
         </div>
         <div class="col-md-4 mb-4">
             <div class="card text-center">
                 <div class="card-body">
-                    <h5 class="card-title">Logout</h5>
-                    <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+                    <h5 class="card-title">Membership</h5>
+                    <a href="{% url 'viewMembership' %}" class="btn btn-primary">View Membership</a>
+                    <a href="{% url 'membership' %}" class="btn btn-secondary">Become a Member</a>
                 </div>
             </div>
         </div>

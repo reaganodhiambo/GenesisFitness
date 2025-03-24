@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Membership{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Membership</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary btn-block mt-4">Become a Member</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
