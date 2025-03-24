@@ -19,6 +19,11 @@ class BookingAdmin(admin.ModelAdmin):
     list_filter = ["client_name", "trainer_name", "class_name"]
 
 
+class MembershipAdmin(admin.ModelAdmin):
+    list_display = ["member", "membership_type", "start_date", "end_date"]
+    list_filter = ["member", "membership_type", "start_date", "end_date"]
+
+
 admin.site.register(Booking)
 admin.site.register(Membership, MembershipAdmin)
 admin.site.register(Class, ClassAdmin)
