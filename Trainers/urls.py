@@ -12,4 +12,5 @@ urlpatterns = [
     ),
     path("view-profile/", views.view_trainer_profile, name="view_trainer_profile"),
     path("edit-profile/", views.edit_trainer_profile, name="edit_trainer_profile"),
+    path("dashboard/", views.trainerDashboard, name="trainer_dashboard"),
 ]

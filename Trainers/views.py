@@ -22,7 +22,16 @@ def trainerDashboard(request):
     if user.user_type == "trainer":
         trainers = Trainer.objects.all()
         profile = get_object_or_404(CustomUser, id_number=user.id_number)
-        context = {"trainers": trainers, "user": user, "profile": profile}
+        try:
+            trainer_profile = TrainerProfile.objects.get(trainer=user)
+        except TrainerProfile.DoesNotExist:
+            trainer_profile = None
+        context = {
+            "trainers": trainers,
+            "user": user,
+            "profile": profile,
+            "trainer_profile": trainer_profile,
+        }
         return render(request, "templates/Trainers/trainers.html", context=context)
     else:
         return render(request, "templates/404.html")

@@ -47,4 +47,4 @@ class MemberFilterForm(forms.Form):
 class TrainerProfileForm(forms.ModelForm):
     class Meta:
         model = TrainerProfile
-        fields = ["speciality", "experience"]
+        fields = ["speciality", "bio"]

@@ -8,9 +8,10 @@
             <div class="card shadow-lg">
                 <div class="card-body">
                     <p><strong>Speciality:</strong> {{ trainer_profile.speciality }}</p>
-                    <p><strong>Experience:</strong> {{ trainer_profile.experience }}</p>
+                    <p><strong>Bio:</strong> {{ trainer_profile.bio }}</p>
                     <div class="text-center mt-4">
                         <a href="{% url 'edit_trainer_profile' %}" class="btn btn-primary">Edit Profile</a>
+                        <a href="{% url 'trainers' %}" class="btn btn-secondary">Back to Dashboard</a>
                     </div>
                 </div>
             </div>

@@ -16,7 +16,7 @@
     <h2 class="text-center">Welcome, {{ user.first_name }}</h2>
 
     <div class="row mt-4">
-        <div class="col-md-4 mb-4">
+        <div class="col-md-3 mb-4">
             <div class="card text-center">
                 <div class="card-body">
                     <h5 class="card-title">Profile</h5>
@@ -25,7 +25,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4 mb-4">
+        <div class="col-md-3 mb-4">
             <div class="card text-center">
                 <div class="card-body">
                     <h5 class="card-title">Members</h5>
@@ -33,12 +33,25 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4 mb-4">
+        <div class="col-md-3 mb-4">
             <div class="card text-center">
                 <div class="card-body">
                     <h5 class="card-title">Classes</h5>
                     <a href="{% url 'add_classes' %}" class="btn btn-success">Add A Class</a>
                     <a href="{% url 'viewClasses' profile.id_number %}" class="btn btn-primary">My Classes</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Trainer Profile</h5>
+                    {% if trainer_profile %}
+                    <a href="{% url 'view_trainer_profile' %}" class="btn btn-primary">View </a>
+                    <a href="{% url 'edit_trainer_profile' %}" class="btn btn-secondary">Edit </a>
+                    {% else %}
+                    <a href="{% url 'create_trainer_profile' %}" class="btn btn-primary">Create Profile</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
