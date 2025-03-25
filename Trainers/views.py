@@ -62,6 +62,11 @@ def viewMembers(request):
             if day_of_week:
                 bookings = bookings.filter(class_name__day_of_week=day_of_week)
 
+            # Store the filtered bookings in the session
+            request.session["filtered_bookings"] = list(
+                bookings.values_list("id", flat=True)
+            )
+
         context = {"bookings": bookings, "trainer": trainer, "form": form}
         return render(request, "templates/trainer_members.html", context)
     else:
@@ -72,8 +77,9 @@ def viewMembers(request):
 def generate_report(request):
     user = request.user
     if user.user_type == "trainer":
-        # Get all bookings for the trainer
-        bookings = Booking.objects.filter(trainer_name=user)
+        # Get the filtered bookings from the session
+        filtered_booking_ids = request.session.get("filtered_bookings", [])
+        bookings = Booking.objects.filter(id__in=filtered_booking_ids)
 
         # Create the HttpResponse object with the appropriate PDF headers.
         response = HttpResponse(content_type="application/pdf")
