@@ -12,4 +12,14 @@ urlpatterns = [
     path("view-membership/", views.viewMembership, name="viewMembership"),
     path("view-booked-classes/", views.viewBookedClasses, name="viewBookedClasses"),
     path("cancel-booking/<int:booking_id>/", views.cancelBooking, name="cancelBooking"),
+    path(
+        "generate-membership-report/",
+        views.generate_membership_report,
+        name="generate_membership_report",
+    ),
+    path(
+        "generate-booked-classes-report/",
+        views.generate_booked_classes_report,
+        name="generate_booked_classes_report",
+    ),
 ]

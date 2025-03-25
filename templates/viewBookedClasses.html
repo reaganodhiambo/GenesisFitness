@@ -45,6 +45,8 @@
 
 
                         <a href="{% url 'bookClasses' user.id_number %}" class="btn btn-info">Book Another Class</a>
+                        <a href="{% url 'generate_booked_classes_report' %}" class="btn btn-primary">Download Report</a>
+
                         <a href="{% url 'members' %}" class="btn btn-secondary">Back to Dashboard</a>
                     </div>
                 </div>
