@@ -95,3 +95,14 @@ class MembershipForm(forms.ModelForm):
             self.user, membership_type, start_date
         )
         return membership
+
+
+
+class ClassFilterForm(forms.Form):
+    class_name = forms.CharField(required=False, label="Class Name")
+    trainer_name = forms.CharField(required=False, label="Trainer Name")
+    day_of_week = forms.ChoiceField(
+        choices=[("", "---------")] + list(Class.DAYS_OF_WEEK),
+        required=False,
+        label="Day of the Week",
+    )

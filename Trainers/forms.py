@@ -37,5 +37,7 @@ class MemberFilterForm(forms.Form):
         label="Booking Date",
     )
     day_of_week = forms.ChoiceField(
-        choices=Class.DAYS_OF_WEEK, required=False, label="Day of the Week"
+        choices=[("", "---------")] + list(Class.DAYS_OF_WEEK),
+        required=False,
+        label="Day of the Week",
     )

@@ -16,7 +16,7 @@ class Class(models.Model):
         ("Sunday", "Sunday"),
     )
 
-    class_name = models.CharField(max_length=100)
+    class_name = models.CharField(max_length=100,unique=True)
     trainer_name = models.ForeignKey(
         CustomUser,
         on_delete=models.CASCADE,

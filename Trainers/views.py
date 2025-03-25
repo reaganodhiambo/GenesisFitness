@@ -1,10 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from Accounts.models import CustomUser
 from Base.models import *
 from Accounts.models import *
-from django.contrib.auth.models import User
-from .forms import EditProfileForm, MemberFilterForm
-from django.contrib import messages
+from .forms import MemberFilterForm
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from reportlab.lib.pagesizes import letter
@@ -66,6 +63,13 @@ def viewMembers(request):
             request.session["filtered_bookings"] = list(
                 bookings.values_list("id", flat=True)
             )
+        else:
+            # Clear the session if the form is not valid (reset filters)
+            request.session["filtered_bookings"] = list(
+                Booking.objects.filter(trainer_name=trainer).values_list(
+                    "id", flat=True
+                )
+            )
 
         context = {"bookings": bookings, "trainer": trainer, "form": form}
         return render(request, "templates/trainer_members.html", context)
@@ -93,9 +97,14 @@ def generate_report(request):
 
         # Add heading and contact information
         styles = getSampleStyleSheet()
+        
+        # Add logo
+        # logo_path = "/static/images/logo.png"  # Update this path to the actual logo path
+        # elements.append(Image(logo_path, width=100, height=50))
+        
         title = Paragraph("Class Members Report", styles["Title"])
         contact_info = Paragraph(
-            f"Trainer: {user.first_name} {user.last_name}<br/>Email: {user.email}",
+            f"Trainer: {user.first_name} {user.last_name}<br/>Email: {user.email}" f"<br/>Phone: {user.phone_number}",
             styles["Normal"],
         )
         elements.append(title)

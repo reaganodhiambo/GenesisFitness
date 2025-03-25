@@ -3,15 +3,41 @@
 {% block content %}
 <div class="container mt-5">
     <h1 class="text-center mb-4">Book Class</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form method="get" class="mb-4">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="id_class_name">Class Name</label>
+                        {{ filter_form.class_name }}
+                    </div>
+                    <div class="col-md-4">
+                        <label for="id_booking_date">Trainer</label>
+                        {{ filter_form.trainer_name }}
+                    </div>
+                    <div class="col-md-4">
+                        <label for="id_day_of_week">Day of Week</label> <br>
+                        {{ filter_form.day_of_week }}
+                    </div>
+                </div>
+                <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                    <a href="{% url 'bookClasses' user.id_number %}" class="btn btn-secondary">Reset</a>
+                </div>
+            </form>
+        </div>
+    </div>
     <div class="row">
         {% for class in classes %}
+        {% if class %}
         <div class="col-md-6 mb-4">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">{{ class.class_name }}</h5>
                     <p class="card-text">{{ class.description }}</p>
-                    <p class="card-text"><strong>Instructor:</strong> {{ class.trainer_name }}</p>
+                    <p class="card-text"><strong>Instructor:</strong> {{ class.trainer_name.first_name }} </p>
                     <p class="card-text"><strong>Duration:</strong> {{ class.get_duration }}</p>
+                    <p class="card-text"><strong>Location:</strong> {{ class.location }}</p>
                     <p class="card-text"><strong>Day:</strong> {{ class.day_of_week }}</p>
                     <p class="card-text"><strong>Start Time:</strong> {{ class.starting_time }}</p>
                     <p class="card-text"><strong>End Time:</strong> {{ class.ending_time }}</p>
@@ -23,6 +49,18 @@
                 </div>
             </div>
         </div>
+        {% else %}
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title
+                    text-center">No classes available</h5>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+
         {% endfor %}
     </div>
 </div>

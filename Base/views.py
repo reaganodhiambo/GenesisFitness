@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from Accounts.models import CustomUser
-from Base.models import Class, Booking, Membership
+from Base.models import *
 from Base.forms import *
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -81,7 +81,23 @@ def bookClasses(request, id_number):
             messages.error(request, "You need an active membership to book classes.")
             return redirect("membership")
 
+        filter_form = ClassFilterForm(request.GET or None)
         classes = Class.objects.all()
+
+        if filter_form.is_valid():
+            class_name = filter_form.cleaned_data.get("class_name")
+            trainer_name = filter_form.cleaned_data.get("trainer_name")
+            day_of_week = filter_form.cleaned_data.get("day_of_week")
+
+            if class_name:
+                classes = classes.filter(class_name__icontains=class_name)
+            if trainer_name:
+                classes = classes.filter(
+                    trainer_name__first_name__icontains=trainer_name
+                ) | classes.filter(trainer_name__last_name__icontains=trainer_name)
+            if day_of_week:
+                classes = classes.filter(day_of_week=day_of_week)
+
         profile = get_object_or_404(CustomUser, id_number=id_number)
 
         if request.method == "POST":
@@ -97,7 +113,13 @@ def bookClasses(request, id_number):
         else:
             form = BookClassForm(user=user)
 
-        context = {"classes": classes, "user": user, "profile": profile, "form": form}
+        context = {
+            "classes": classes,
+            "user": user,
+            "profile": profile,
+            "form": form,
+            "filter_form": filter_form,
+        }
         return render(request, "templates/Classes/bookClasses.html", context=context)
     else:
         return render(request, "templates/404.html")
