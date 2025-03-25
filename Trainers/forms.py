@@ -2,6 +2,7 @@ from .models import *
 from Accounts.models import *
 from django import forms
 from Base.models import Class
+from .models import TrainerProfile
 
 
 class EditProfileForm(forms.ModelForm):
@@ -41,3 +42,9 @@ class MemberFilterForm(forms.Form):
         required=False,
         label="Day of the Week",
     )
+
+
+class TrainerProfileForm(forms.ModelForm):
+    class Meta:
+        model = TrainerProfile
+        fields = ["speciality", "experience"]

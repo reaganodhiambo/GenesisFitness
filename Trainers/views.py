@@ -9,6 +9,9 @@ from reportlab.pdfgen import canvas
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
+from django.contrib import messages
+from .models import TrainerProfile
+from .forms import TrainerProfileForm
 
 # Create your views here.
 
@@ -97,14 +100,15 @@ def generate_report(request):
 
         # Add heading and contact information
         styles = getSampleStyleSheet()
-        
+
         # Add logo
         # logo_path = "/static/images/logo.png"  # Update this path to the actual logo path
         # elements.append(Image(logo_path, width=100, height=50))
-        
+
         title = Paragraph("Class Members Report", styles["Title"])
         contact_info = Paragraph(
-            f"Trainer: {user.first_name} {user.last_name}<br/>Email: {user.email}" f"<br/>Phone: {user.phone_number}",
+            f"Trainer: {user.first_name} {user.last_name}<br/>Email: {user.email}"
+            f"<br/>Phone: {user.phone_number}",
             styles["Normal"],
         )
         elements.append(title)
@@ -148,5 +152,57 @@ def generate_report(request):
         doc.build(elements)
 
         return response
+    else:
+        return render(request, "templates/404.html")
+
+
+@login_required
+def create_trainer_profile(request):
+    user = request.user
+    if user.user_type == "trainer":
+        if request.method == "POST":
+            form = TrainerProfileForm(request.POST)
+            if form.is_valid():
+                trainer_profile = form.save(commit=False)
+                trainer_profile.trainer = user
+                trainer_profile.save()
+                messages.success(request, "Profile created successfully")
+                return redirect("view_trainer_profile")
+        else:
+            form = TrainerProfileForm()
+        context = {"form": form}
+        return render(
+            request, "templates/Trainers/create_trainer_profile.html", context
+        )
+    else:
+        return render(request, "templates/404.html")
+
+
+@login_required
+def view_trainer_profile(request):
+    user = request.user
+    if user.user_type == "trainer":
+        trainer_profile = get_object_or_404(TrainerProfile, trainer=user)
+        context = {"trainer_profile": trainer_profile}
+        return render(request, "templates/Trainers/view_trainer_profile.html", context)
+    else:
+        return render(request, "templates/404.html")
+
+
+@login_required
+def edit_trainer_profile(request):
+    user = request.user
+    if user.user_type == "trainer":
+        trainer_profile = get_object_or_404(TrainerProfile, trainer=user)
+        if request.method == "POST":
+            form = TrainerProfileForm(request.POST, instance=trainer_profile)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Profile updated successfully")
+                return redirect("view_trainer_profile")
+        else:
+            form = TrainerProfileForm(instance=trainer_profile)
+        context = {"form": form}
+        return render(request, "templates/Trainers/edit_trainer_profile.html", context)
     else:
         return render(request, "templates/404.html")
