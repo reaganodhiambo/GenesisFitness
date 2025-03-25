@@ -24,6 +24,6 @@ class MembershipAdmin(admin.ModelAdmin):
     list_filter = ["membership_type", "start_date", "end_date"]
 
 
-admin.site.register(Booking)
+admin.site.register(Booking, BookingAdmin)
 admin.site.register(Membership, MembershipAdmin)
 admin.site.register(Class, ClassAdmin)
